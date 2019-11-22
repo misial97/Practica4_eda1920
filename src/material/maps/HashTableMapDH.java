@@ -21,6 +21,6 @@ public class HashTableMapDH<K, V> extends AbstractHashTableMap<K, V> {
     @Override
     protected int offset(K key, int i) {
         //TODO: Practica 4 Ejercicio 1
-        return (7 - (key.hashCode() % 7))*i;
+        return (this.prime - (key.hashCode() % this.prime))*i;
     }
 }
