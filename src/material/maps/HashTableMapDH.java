@@ -18,6 +18,7 @@ public class HashTableMapDH<K, V> extends AbstractHashTableMap<K, V> {
         super(p, cap);
     }
 
+    // Realizado por: Miguel Sierra
     @Override
     protected int offset(K key, int i) {
         //TODO: Practica 4 Ejercicio 1

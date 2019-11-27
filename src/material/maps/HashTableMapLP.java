@@ -17,11 +17,11 @@ public class HashTableMapLP<K, V> extends AbstractHashTableMap<K, V> {
         super();
     }
 
-    //protected AbstractHashTableMap(int p, int cap)
     public HashTableMapLP(int p, int cap) {
         super(p, cap);
     }
 
+    // Realizado por: Miguel Sierra
     @Override
     protected int offset(K key, int i) {
         //TODO: Practica 4 Ejercicio 1
