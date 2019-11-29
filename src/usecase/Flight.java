@@ -1,99 +1,122 @@
 package usecase;
 
+import material.maps.HashTableMapLP;
 
 public class Flight {
 
-    public Flight(){
+    private int hours, minutes;
+    private int year, month, day;
+    private int flightCode, capacity, delay;
+    private String company ,origin, destination;
+    private HashTableMapLP<String, String> properties;
 
+    public Flight(){
+        this.properties = new HashTableMapLP<>();
+    }
+
+    public Flight(int hours, int minutes, int year, int month, int day, int flightCode, int capacity, int delay, String company, String origin, String destination) {
+        this.hours = hours;
+        this.minutes = minutes;
+        this.year = year;
+        this.month = month;
+        this.day = day;
+        this.flightCode = flightCode;
+        this.capacity = capacity;
+        this.delay = delay;
+        this.company = company;
+        this.origin = origin;
+        this.destination = destination;
     }
 
     public void setTime(int hours, int minutes) {
-        throw new RuntimeException("Not yet implemented.");
+        this.hours = hours;
+        this.minutes = minutes;
     }
 
     public int getHours() {
-        throw new RuntimeException("Not yet implemented.");
+        return this.hours;
     }
 
     public int getMinutes() {
-        throw new RuntimeException("Not yet implemented.");
+        return this.minutes;
     }
 
     public String getCompany() {
-        throw new RuntimeException("Not yet implemented.");
+        return this.company;
     }
 
     public void setCompany(String company) {
-        throw new RuntimeException("Not yet implemented.");
+        this.company = company;
     }
 
     public int getFlightCode() {
-        throw new RuntimeException("Not yet implemented.");
+        return this.flightCode;
     }
 
-    public void setFlightCode(int flightCode){throw new RuntimeException("Not yet implemented.");
+    public void setFlightCode(int flightCode){
+        this.flightCode = flightCode;
     }
 
     public void setDate(int year, int month, int day) {
-        throw new RuntimeException("Not yet implemented.");
+        this.year = year;
+        this.month = month;
+        this.day = day;
     }
 
     public int getYear() {
-        throw new RuntimeException("Not yet implemented.");
+        return this.year;
     }
 
     public int getMonth() {
-        throw new RuntimeException("Not yet implemented.");
+        return this.month;
     }
 
     public int getDay() {
-        throw new RuntimeException("Not yet implemented.");
+        return this.day;
     }
 
-
     public int getCapacity() {
-        throw new RuntimeException("Not yet implemented.");
+        return this.capacity;
     }
 
     public void setCapacity(int capacity) {
-        throw new RuntimeException("Not yet implemented.");
+        this.capacity = capacity;
     }
 
     public String getOrigin() {
-        throw new RuntimeException("Not yet implemented.");
+        return this.origin;
     }
 
     public void setOrigin(String origin) {
-        throw new RuntimeException("Not yet implemented.");
+        this.origin = origin;
     }
 
     public String getDestination() {
-        throw new RuntimeException("Not yet implemented.");
+        return this.destination;
     }
 
     public void setDestination(String destination) {
-        throw new RuntimeException("Not yet implemented.");
+        this.destination = destination;
     }
 
     public int getDelay() {
-        throw new RuntimeException("Not yet implemented.");
+        return this.delay;
     }
 
     public void setDelay(int delay) {
-        throw new RuntimeException("Not yet implemented.");
+        this.delay = delay;
     }
 
     public void setProperty(String attribute, String value) {
-        throw new RuntimeException("Not yet implemented.");
+        this.properties.put(attribute, value);
     }
 
     public String getProperty(String attribute) {
-        throw new RuntimeException("Not yet implemented.");
+        return this.properties.get(attribute);
     }
 
     public Iterable<String> getAllAttributes() {
-        throw new RuntimeException("Not yet implemented.");
+        return this.properties.keys();
     }
-
 
 }
