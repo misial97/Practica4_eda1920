@@ -2,6 +2,7 @@ package test;
 
 import material.maps.Entry;
 import material.maps.HashTableMapLP;
+import material.maps.HashTableMapSC;
 import material.maps.Map;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,11 +18,13 @@ class HashTableMapTest {
 
 
     public static <K,V> Map<K, V> newTestMapInstance() {
-        return new HashTableMapLP<>();
+        return new HashTableMapSC<>();
+        //return new HashTableMapLP<>();
     }
 
     public <K,V> Map<K, V> newTestMapInstance(int capacity) {
-        return new HashTableMapLP<>(capacity);
+        return new HashTableMapSC<>(capacity);
+        //return new HashTableMapLP<>(capacity);
     }
 
     @BeforeEach
