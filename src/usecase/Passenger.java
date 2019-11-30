@@ -41,4 +41,24 @@ public class Passenger {
         this.surname = surname;
     }
 
+    @Override
+    public String toString(){
+        return this.dni + " " + this.name + " " + this.surname;
+    }
+
+    @Override
+    public int hashCode(){
+        int result  = 13;
+        result  = 31 * result  + (this.dni != null ? dni.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if((obj == null) || (!(obj instanceof Passenger)))
+            return false;
+        Passenger objPassenger = (Passenger) obj;
+
+        return objPassenger.hashCode() == this.hashCode();
+    }
 }

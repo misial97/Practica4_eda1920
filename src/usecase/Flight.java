@@ -119,4 +119,32 @@ public class Flight {
         return this.properties.keys();
     }
 
+    public String toString(){
+        String fecha = this.day + "-" + this.month + "-" + this.year;
+        String companyAndFlightCode = this.company + this.flightCode;
+        String delayString = "";
+        if (this.delay > 0)
+            delayString = "\tDELAYED (" + this.delay + ")";
+        return fecha + "\t" + companyAndFlightCode + "\t" + this.origin + "\t" + this.destination + delayString;
+    }
+
+    @Override
+    public int hashCode(){
+        int result  = 13;
+        result  = 31 * result  + (this.company != null ? company.hashCode() : 0);
+        result = 31 * result  + this.flightCode;
+        result = 31 * result  + this.day;
+        result = 31 * result  + this.month;
+        result = 31 * result  + this.year;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if((obj == null) || (!(obj instanceof Flight)))
+            return false;
+        Flight objFlight = (Flight) obj;
+
+        return objFlight.hashCode() == this.hashCode();
+    }
 }
