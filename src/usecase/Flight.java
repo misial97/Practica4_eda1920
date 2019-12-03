@@ -14,18 +14,30 @@ public class Flight {
         this.properties = new HashTableMapLP<>();
     }
 
-    public Flight(int hours, int minutes, int year, int month, int day, int flightCode, int capacity, int delay, String company, String origin, String destination) {
-        this.hours = hours;
-        this.minutes = minutes;
+    public Flight(Flight f){
+        if(f!=null){
+            this.hours = f.hours;
+            this.minutes = f.minutes;
+            this.year = f.year;
+            this.month = f.month;
+            this.day = f.day;
+            this.flightCode = f.flightCode;
+            this.capacity = f.capacity;
+            this.company = f.company;
+            this.delay = f.delay;
+            this.origin = f.origin;
+            this.destination = f.destination;
+            this.properties = f.properties;
+        }
+    }
+
+    public Flight(String company, int flightCode, int year, int month, int day) {
         this.year = year;
         this.month = month;
         this.day = day;
         this.flightCode = flightCode;
-        this.capacity = capacity;
-        this.delay = delay;
         this.company = company;
-        this.origin = origin;
-        this.destination = destination;
+        this.properties = new HashTableMapLP<>();
     }
 
     public void setTime(int hours, int minutes) {
@@ -120,12 +132,24 @@ public class Flight {
     }
 
     public String toString(){
-        String fecha = this.day + "-" + this.month + "-" + this.year;
-        String companyAndFlightCode = this.company + this.flightCode;
+        String fecha = this.day + "-" + this.month + "-" + this.year ;
+        String companyAndFlightCode = "\t" + this.company + this.flightCode;
         String delayString = "";
+        String hourAndMinutes = "";
+        String origin = "";
+        String destination = "";
+
+        //Validations
         if (this.delay > 0)
-            delayString = "\tDELAYED (" + this.delay + ")";
-        return fecha + "\t" + companyAndFlightCode + "\t" + this.origin + "\t" + this.destination + delayString;
+            delayString = "\t" + "DELAYED (" + this.delay + "min)";
+        if((this.hours > 0) || (this.minutes > 0))
+            hourAndMinutes = "\t" + this.hours + ":" + this.minutes;
+        if((this.origin != null) && (!this.origin.equals("")))
+            origin = "\t" + this.origin;
+        if((this.destination != null) && (!this.destination.equals("")))
+            destination = "\t" + this.destination;
+
+        return fecha + companyAndFlightCode + hourAndMinutes + origin + destination  + delayString;
     }
 
     @Override
