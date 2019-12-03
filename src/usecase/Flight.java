@@ -1,5 +1,6 @@
 package usecase;
 
+import material.maps.Entry;
 import material.maps.HashTableMapLP;
 
 public class Flight {
@@ -16,18 +17,21 @@ public class Flight {
 
     public Flight(Flight f){
         if(f!=null){
-            this.hours = f.hours;
-            this.minutes = f.minutes;
-            this.year = f.year;
-            this.month = f.month;
-            this.day = f.day;
-            this.flightCode = f.flightCode;
-            this.capacity = f.capacity;
-            this.company = f.company;
-            this.delay = f.delay;
-            this.origin = f.origin;
-            this.destination = f.destination;
-            this.properties = f.properties;
+            this.hours = f.getHours();
+            this.minutes = f.getMinutes();
+            this.year = f.getYear();
+            this.month = f.getMonth();
+            this.day = f.getDay();
+            this.flightCode = f.getFlightCode();
+            this.capacity = f.getCapacity();
+            this.company = f.getCompany();
+            this.delay = f.getDelay();
+            this.origin = f.getOrigin();
+            this.destination = f.getDestination();
+            this.properties = new HashTableMapLP<>();
+            for(Entry<String, String> e: f.properties.entries()){
+                this.properties.put(e.getKey(),e.getValue());
+            }
         }
     }
 
