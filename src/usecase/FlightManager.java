@@ -49,7 +49,26 @@ public class FlightManager {
             this.searchByDateMap.remove(dateKey);
             this.searchByDateMap.put(dateKey, flightByDateList);
         }
-
+        /**
+        probar
+       
+        String destinationKey = "destinationNull" + "/_/" + year + month + day;
+        List<Flight> flightByDestination = new ArrayList<>();
+        if(this.searchByDestinationMap.get(destinationKey) == null) {
+            this.searchByDestinationMap.put(destinationKey, new ArrayList<>());
+        }
+        if(this.searchByDestinationMap.get(destinationKey).size()==0) {
+            flightByDestination = new ArrayList<>();
+            flightByDestination.add(newFlight);
+            this.searchByDestinationMap.put(destinationKey, flightByDestination);
+        }else{
+            flightByDestination = this.searchByDestinationMap.get(destinationKey);
+            flightByDestination.add(newFlight);
+            this.searchByDestinationMap.remove(destinationKey);
+            this.searchByDestinationMap.put(destinationKey, flightByDestination);
+        }
+        
+        */
         return new Flight(newFlight);
     }
 
