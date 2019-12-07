@@ -1,13 +1,13 @@
 package usecase;
 
-
 import material.maps.HashTableMapLP;
-
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Realizado por: Miguel Sierra Alonso
+ *
+ * */
 public class FlightManager {
-
 
     private HashTableMapLP<Flight, Flight> map;
     private HashTableMapLP<Flight, List<Passenger>> flightPassengerMap;
@@ -49,26 +49,6 @@ public class FlightManager {
             this.searchByDateMap.remove(dateKey);
             this.searchByDateMap.put(dateKey, flightByDateList);
         }
-        /**
-        probar
-       
-        String destinationKey = "destinationNull" + "/_/" + year + month + day;
-        List<Flight> flightByDestination = new ArrayList<>();
-        if(this.searchByDestinationMap.get(destinationKey) == null) {
-            this.searchByDestinationMap.put(destinationKey, new ArrayList<>());
-        }
-        if(this.searchByDestinationMap.get(destinationKey).size()==0) {
-            flightByDestination = new ArrayList<>();
-            flightByDestination.add(newFlight);
-            this.searchByDestinationMap.put(destinationKey, flightByDestination);
-        }else{
-            flightByDestination = this.searchByDestinationMap.get(destinationKey);
-            flightByDestination.add(newFlight);
-            this.searchByDestinationMap.remove(destinationKey);
-            this.searchByDestinationMap.put(destinationKey, flightByDestination);
-        }
-        
-        */
         return new Flight(newFlight);
     }
 
@@ -96,35 +76,50 @@ public class FlightManager {
         Flight updatedFlightInfoCopy = new Flight(updatedFlightInfo);
         this.map.put(updatedFlightInfoCopy, updatedFlightInfoCopy);
 
-        List<Passenger> passengersInFlight = this.flightPassengerMap.get(flightInMap);
-        this.flightPassengerMap.remove(flightInMap);
-        this.flightPassengerMap.put(updatedFlightInfoCopy, passengersInFlight);
+        //byPassenger
+        updateFlightByPassengerMap(flightInMap, updatedFlightInfoCopy);
 
         //byDate
         String oldDateKey = "" + year + month + day;
         String newDateKey = "" + updatedFlightInfo.getYear() + updatedFlightInfo.getMonth() + updatedFlightInfo.getDay();
-        List<Flight> flightByDateList = new ArrayList<>(this.searchByDateMap.get(oldDateKey));
-        this.searchByDateMap.remove(oldDateKey);
-        flightByDateList.remove(flightInMap);
-        flightByDateList.add(updatedFlightInfoCopy);
-        this.searchByDateMap.put(newDateKey, flightByDateList);
+        updateFlightByDateMap(flightInMap, updatedFlightInfoCopy, oldDateKey, newDateKey);
 
-        //byPassenger
+        //byDestination
+        String oldDestinationKey = flightInMap.getDestination() + "/_/" + year + month + day;
+        String newDestinationKey = updatedFlightInfo.getDestination() + "/_/" + updatedFlightInfo.getYear() +
+                updatedFlightInfo.getMonth() + updatedFlightInfo.getDay();
+
+        updateFlightByDestinationMap(updatedFlightInfo, flightInMap, updatedFlightInfoCopy, oldDestinationKey, newDestinationKey);
+    }
+
+    private void updateFlightByPassengerMap(Flight flightInMap, Flight updatedFlightInfoCopy) {
+        List<Passenger> passengersInFlight = this.flightPassengerMap.get(flightInMap);
+        this.flightPassengerMap.remove(flightInMap);
+        this.flightPassengerMap.put(updatedFlightInfoCopy, passengersInFlight);
+
         for(List<Flight> list :this.searchByPassengerMap.values()){
             if(list.contains(flightInMap)){
                 list.remove(flightInMap);
                 list.add(updatedFlightInfoCopy);
             }
         }
-        //byDestination
-        String oldDestinationKey = flightInMap.getDestination() + "/_/" + year + month + day;
-        String newDestinationKey = updatedFlightInfo.getDestination() + "/_/" + updatedFlightInfo.getYear() +
-                updatedFlightInfo.getMonth() + updatedFlightInfo.getDay();
+    }
 
+    private void updateFlightByDateMap(Flight flightInMap, Flight updatedFlightInfoCopy, String oldDateKey, String newDateKey) {
+        List<Flight> flightByDateList = new ArrayList<>(this.searchByDateMap.get(oldDateKey));
+        this.searchByDateMap.remove(oldDateKey);
+        flightByDateList.remove(flightInMap);
+        flightByDateList.add(updatedFlightInfoCopy);
+        this.searchByDateMap.put(newDateKey, flightByDateList);
+    }
+
+    private void updateFlightByDestinationMap(Flight updatedFlightInfo, Flight flightInMap, Flight updatedFlightInfoCopy, String oldDestinationKey, String newDestinationKey) {
         List<Flight> flightList = this.searchByDestinationMap.get(oldDestinationKey);
         this.searchByDestinationMap.remove(oldDestinationKey);
         if(flightList != null){
-            if(!updatedFlightInfo.getDestination().equals(flightInMap.getDestination())) {
+            if(((updatedFlightInfo.getDestination() != null) || (flightInMap.getDestination() != null)) &&
+                    (!updatedFlightInfo.getDestination().equals(flightInMap.getDestination())))
+            {
                 flightList.remove(flightInMap);
                 flightList.add(updatedFlightInfoCopy);
                 this.searchByDestinationMap.put(newDestinationKey, flightList);
@@ -133,9 +128,16 @@ public class FlightManager {
                 this.searchByDestinationMap.put(newDestinationKey,flightList);
             }
         }else{
-            flightList = new ArrayList<>();
-            flightList.add(updatedFlightInfoCopy);
-            this.searchByDestinationMap.put(newDestinationKey, flightList);
+            flightList = this.searchByDestinationMap.get(newDestinationKey);
+            if(flightList != null){
+                flightList.add(updatedFlightInfoCopy);
+                //this.searchByDestinationMap.remove(newDestinationKey);
+                this.searchByDestinationMap.put(newDestinationKey, flightList);
+            }else {
+                flightList = new ArrayList<>();
+                flightList.add(updatedFlightInfoCopy);
+                this.searchByDestinationMap.put(newDestinationKey, flightList);
+            }
         }
     }
 
@@ -188,14 +190,17 @@ public class FlightManager {
 
     public Iterable<Flight> getFlightsByDestination(String destination, int year, int month, int day) {
         String key = destination + "/_/" + year + month + day;
-        List<String> keysInMap = new ArrayList<>();
-        for (String keyInMap : this.searchByDestinationMap.keys()) {
-            String keyToAdd = keyInMap.split("/_/")[0];
-            keysInMap.add(keyToAdd);
-        }
-      //  if(!keysInMap.contains(destination))
-      //      throw new RuntimeException("The destination doesn't exists.");
+        if(!listOfDestinationsInMap().contains(destination))
+            throw new RuntimeException("The destination doesn't exists.");
         return this.searchByDestinationMap.get(key) == null ? new ArrayList<>() : this.searchByDestinationMap.get(key);
+    }
+
+    private List<String> listOfDestinationsInMap() {
+        List<String> keysInMap = new ArrayList<>();
+        for (String keyInMap : this.searchByDestinationMap.keys())
+            keysInMap.add(keyInMap.split("/_/")[0]);
+
+        return keysInMap;
     }
 
 }

@@ -552,7 +552,7 @@ class FlightManagerTest {
         f2.setDestination(airport.get(2));
         f3.setDestination(airport.get(3));
         f4.setDestination(airport.get(3));
-        f5.setDestination(airport.get(3));
+        f5.setDestination(airport.get(1));
         f6.setDestination(airport.get(1));
 
         manager.updateFlight(companies.get(0), 7070, 2019, 1, 31,f1);
