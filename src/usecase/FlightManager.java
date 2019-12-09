@@ -16,6 +16,7 @@ public class FlightManager {
     private HashTableMapLP<String, List<Flight>> searchByDestinationMap;
     private HashTableMapLP<Passenger, List<Flight>> searchByPassengerMap;
 
+    private List<String> destinations;
 
     public FlightManager(){
         this.map = new HashTableMapLP<>();
@@ -23,6 +24,7 @@ public class FlightManager {
         this.searchByDateMap = new HashTableMapLP<>();
         this.searchByDestinationMap = new HashTableMapLP<>();
         this.searchByPassengerMap = new HashTableMapLP<>();
+        this.destinations = new ArrayList<>();
     }
 
     public Flight addFlight(String company, int flightCode, int year, int month, int day) {
@@ -90,6 +92,10 @@ public class FlightManager {
                 updatedFlightInfo.getMonth() + updatedFlightInfo.getDay();
 
         updateFlightByDestinationMap(updatedFlightInfo, flightInMap, updatedFlightInfoCopy, oldDestinationKey, newDestinationKey);
+
+        if((updatedFlightInfo.getDestination() != null) && (!updatedFlightInfo.getDestination().equals("")) &&
+                (!this.destinations.contains(updatedFlightInfo.getDestination())))
+            this.destinations.add(updatedFlightInfo.getDestination());
     }
 
     private void updateFlightByPassengerMap(Flight flightInMap, Flight updatedFlightInfoCopy) {
@@ -190,7 +196,7 @@ public class FlightManager {
 
     public Iterable<Flight> getFlightsByDestination(String destination, int year, int month, int day) {
         String key = destination + "/_/" + year + month + day;
-        if(!listOfDestinationsInMap().contains(destination))
+        if(!this.destinations.contains(destination))
             throw new RuntimeException("The destination doesn't exists.");
         return this.searchByDestinationMap.get(key) == null ? new ArrayList<>() : this.searchByDestinationMap.get(key);
     }
