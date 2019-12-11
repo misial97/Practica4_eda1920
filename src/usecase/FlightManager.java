@@ -201,12 +201,12 @@ public class FlightManager {
         return this.searchByDestinationMap.get(key) == null ? new ArrayList<>() : this.searchByDestinationMap.get(key);
     }
 
-    private List<String> listOfDestinationsInMap() {
+    /*private List<String> listOfDestinationsInMap() {
         List<String> keysInMap = new ArrayList<>();
         for (String keyInMap : this.searchByDestinationMap.keys())
             keysInMap.add(keyInMap.split("/_/")[0]);
 
         return keysInMap;
-    }
+    }*/
 
 }
