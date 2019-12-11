@@ -57,7 +57,6 @@ public class HashTableMapSC<K, V> implements Map<K, V> {
         }
     }
 
-    //Falta por corregir iterador
     private class HashTableMapIterator<T, U> implements Iterator<Entry<T, U>> {
 
         private int pos, listPos;
