@@ -3,6 +3,10 @@ package usecase;
 import material.maps.Entry;
 import material.maps.HashTableMapLP;
 
+/**
+ * Realizado por: Miguel Sierra Alonso
+ *
+ * */
 public class Flight {
 
     private int hours, minutes;

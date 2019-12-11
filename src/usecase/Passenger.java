@@ -1,6 +1,9 @@
 package usecase;
 
-
+/**
+ * Realizado por: Miguel Sierra Alonso
+ *
+ * */
 public class Passenger {
 
     private String dni;
